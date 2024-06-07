@@ -70,7 +70,7 @@ public class ShoppingCartController {
     public R<List<ShoppingCart>> list(){
         log.info("查看购物车...");
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ShoppingCart::getSetmealId,BaseContext.getCurrentId());
+        queryWrapper.eq(ShoppingCart::getUserId,BaseContext.getCurrentId());
         queryWrapper.orderByAsc(ShoppingCart::getCreateTime);
 
         List<ShoppingCart> list = shoppingCartService.list(queryWrapper);

@@ -1,5 +1,5 @@
 //获取所有的菜品分类
-function categoryListApi() {
+function categoryListApi(data) {
     return $axios({
       'url': '/category/list',
       'method': 'get',
