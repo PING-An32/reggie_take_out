@@ -1,4 +1,0 @@
-b1 branch
-modified in master
-modified in b1
-
