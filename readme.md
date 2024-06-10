@@ -13,6 +13,12 @@ front/index.html下134行
 即
 <div class="divDishNum" style="font-size:16px">{{item.number}}</div>
 
+3.
+redis.windows.conf文件修改
+注释掉bind 127.0.0.1
+声明port 6379
+声明requirepass 123456
+
 ## 逻辑
 去结算跳转到/front/page/add-order.html
 结果直接跳到了address-edit.html
