@@ -19,6 +19,9 @@ redis.windows.conf文件修改
 声明port 6379
 声明requirepass 123456
 
+4.
+不使用mysql主从复制时记得注释掉maven中的sharding依赖，并刷新maven文件
+
 ## 逻辑
 去结算跳转到/front/page/add-order.html
 结果直接跳到了address-edit.html

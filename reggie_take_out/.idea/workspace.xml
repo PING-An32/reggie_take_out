@@ -7,7 +7,6 @@
     <list default="true" id="e0bce32c-d45a-43df-82d3-cf44caeecb15" name="Changes" comment="commit using IDEA">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +76,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.ReggieApplication.executor": "Debug",
-    "git-widget-placeholder": "v1.1",
+    "git-widget-placeholder": "v1.2",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "E:/git/reggie_take_out/reggie_take_out",
@@ -121,6 +120,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.ReggieApplication" />
         <item itemvalue="Spring Boot.ReggieApplication" />
         <item itemvalue="Spring Boot.ReggieApplication" />
       </list>
