@@ -1,0 +1,144 @@
+Index: ../.idea/aping.iml
+===================================================================
+diff --git a/../.idea/aping.iml b/../.idea/aping.iml
+deleted file mode 100644
+--- a/../.idea/aping.iml	
++++ /dev/null	
+@@ -1,9 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+-    <exclude-output />
+-    <content url="file://$MODULE_DIR$" />
+-    <orderEntry type="inheritedJdk" />
+-    <orderEntry type="sourceFolder" forTests="false" />
+-  </component>
+-</module>
+\ No newline at end of file
+Index: ../.idea/.gitignore
+===================================================================
+diff --git a/../.idea/.gitignore b/../.idea/.gitignore
+deleted file mode 100644
+--- a/../.idea/.gitignore	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+-# Editor-based HTTP Client requests
+-/httpRequests/
+-# Datasource local storage ignored files
+-/dataSources/
+-/dataSources.local.xml
+Index: src/test/java/leetcode.java
+===================================================================
+diff --git a/src/test/java/leetcode.java b/src/test/java/leetcode.java
+deleted file mode 100644
+--- a/src/test/java/leetcode.java	
++++ /dev/null	
+@@ -1,9 +0,0 @@
+-import org.junit.jupiter.api.Test;
+-
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-public class leetcode {
+-
+-
+-}
+Index: ../.idea/misc.xml
+===================================================================
+diff --git a/../.idea/misc.xml b/../.idea/misc.xml
+deleted file mode 100644
+--- a/../.idea/misc.xml	
++++ /dev/null	
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/out" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../.idea/vcs.xml
+===================================================================
+diff --git a/../.idea/vcs.xml b/../.idea/vcs.xml
+deleted file mode 100644
+--- a/../.idea/vcs.xml	
++++ /dev/null	
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="" vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: ../.idea/modules.xml
+===================================================================
+diff --git a/../.idea/modules.xml b/../.idea/modules.xml
+deleted file mode 100644
+--- a/../.idea/modules.xml	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/.idea/aping.iml" filepath="$PROJECT_DIR$/.idea/aping.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: src/test/java/Solution.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/Solution.java b/src/test/java/Solution.java
+new file mode 100644
+--- /dev/null	
++++ b/src/test/java/Solution.java	
+@@ -0,0 +1,42 @@
++import org.junit.jupiter.api.Test;
++
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.List;
++
++class Solution {
++    @Test
++    public void Testleet() {
++        rob(new int[]{1,2,3,2});
++    }
++
++    public int rob(int[] nums){
++        int n = nums.length;
++        if(n==1){
++            return nums[0];
++        }
++        if(n==2){
++            return Math.max(nums[0],nums[1]);
++        }
++        return Math.max(
++                nums[0]+rob1(Arrays.copyOfRange(nums,2,n-1)),
++                rob1(Arrays.copyOfRange(nums,1,n))
++        );
++    }
++    public int rob1(int[] nums) {
++        int n = nums.length;
++        if(n==0 || n==1){
++            return 0;
++        }
++        if(n==1){
++            return nums[0];
++        }
++        int[] f = new int[n];
++        f[0] = nums[0];
++        f[1] = Math.max(nums[0],nums[1]);
++        for(int i=2;i<n;i++){
++            f[i] = Math.max(f[i-2]+nums[i],f[i-1]);
++        }
++        return f[n-1];
++    }
++}
