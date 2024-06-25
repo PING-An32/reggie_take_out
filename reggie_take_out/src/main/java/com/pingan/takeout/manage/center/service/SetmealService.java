@@ -9,4 +9,10 @@ import java.util.List;
 public interface SetmealService extends IService<Setmeal> {
     public void saveWithDish(SetmealDto setmealDto);
     public void removeWithDish(List<Long> ids);
+
+    /**
+     * 修改操作
+     * @param setmealDto
+     */
+    public void updateWithDish(SetmealDto setmealDto);
 }

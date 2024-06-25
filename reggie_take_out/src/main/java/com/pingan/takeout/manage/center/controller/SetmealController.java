@@ -6,6 +6,7 @@ import com.pingan.takeout.manage.center.common.R;
 import com.pingan.takeout.manage.center.dto.SetmealDto;
 import com.pingan.takeout.manage.center.entity.Category;
 import com.pingan.takeout.manage.center.entity.Setmeal;
+import com.pingan.takeout.manage.center.entity.SetmealDish;
 import com.pingan.takeout.manage.center.service.CategoryService;
 import com.pingan.takeout.manage.center.service.SetmealDishService;
 import com.pingan.takeout.manage.center.service.SetmealService;
@@ -117,6 +118,13 @@ public class SetmealController {
         List<Setmeal> list = setmealService.list(queryWrapper);
         return R.success(list);
     }
+    //其实还可以整合成一个方法，url写为/status，读取后面的值设置为status，根据status对ids进行操作即可
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
     @PostMapping("/status/0")
     public R<String> closeStatus(@RequestParam List<Long> ids){
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
@@ -130,6 +138,12 @@ public class SetmealController {
         }
         return R.success("修改成功");
     }
+
+    /**
+     * 批量添加
+     * @param ids
+     * @return
+     */
     @PostMapping("/status/1")
     public R<String> openStatus(@RequestParam List<Long> ids){
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
@@ -141,6 +155,33 @@ public class SetmealController {
             setmeal.setStatus(1);
             setmealService.updateById(setmeal);
         }
+        return R.success("修改成功");
+    }
+
+    /**
+     * 回显操作
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R<SetmealDto> getById(@PathVariable Long id){
+        //我们需要把setmealDto返回回去，定义一个新的setmealDto用于保存数据
+        SetmealDto setmealDto = new SetmealDto();
+        //将普通数据传入
+        Setmeal setmeal = setmealService.getById(id);
+        BeanUtils.copyProperties(setmeal,setmealDto);
+        //将菜品信息传递进去
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SetmealDish::getSetmealId,id);
+
+        List<SetmealDish> list = setmealDishService.list(queryWrapper);
+
+        setmealDto.setSetmealDishes(list);
+        return R.success(setmealDto);
+    }
+    @PutMapping
+    public R<String> update(@RequestBody SetmealDto setmealDto){
+        setmealService.updateById(setmealDto);
         return R.success("修改成功");
     }
 }
