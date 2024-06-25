@@ -1,5 +1,6 @@
 package com.pingan.takeout.manage.center.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 @EnableAsync
+@Slf4j
 public class ExecutorConfig {
     @Value("${task.pool.corePoolSize}")
     private int corePoolSize;
@@ -24,6 +26,7 @@ public class ExecutorConfig {
     //这个方法返回一个线程池bean
     @Bean(name = "asyncServiceExecutor")
     public Executor asyncServiceExecutor() {
+        log.info("开始配置线程池...");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize);
         executor.setMaxPoolSize(maximumPoolSize);

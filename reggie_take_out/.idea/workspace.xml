@@ -5,16 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e0bce32c-d45a-43df-82d3-cf44caeecb15" name="Changes" comment="commit using IDEA">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/annotation/RepeatSubmit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/NoRepeatSubmitAspect.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/RedisLock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/ReggieApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/ReggieApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/SetmealController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/SetmealController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/SetmealService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/SetmealService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/OrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/SetmealServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/SetmealServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/config/ExecutorConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/config/ExecutorConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,20 +221,24 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/RedisLock.java</url>
           <line>14</line>
           <option name="timeStamp" value="88" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/NoRepeatSubmitAspect.java</url>
-          <line>27</line>
-          <option name="timeStamp" value="90" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/SetmealServiceImpl.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="96" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/OrderServiceImpl.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="91" />
+          <line>43</line>
+          <properties class="com.pingan.takeout.manage.center.service.impl.OrderServiceImpl" method="submit">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="94" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
