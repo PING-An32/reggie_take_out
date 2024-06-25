@@ -5,6 +5,7 @@ import com.pingan.takeout.manage.center.dto.SetmealDto;
 import com.pingan.takeout.manage.center.entity.Setmeal;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public interface SetmealService extends IService<Setmeal> {
     public void saveWithDish(SetmealDto setmealDto);
@@ -15,4 +16,5 @@ public interface SetmealService extends IService<Setmeal> {
      * @param setmealDto
      */
     public void updateWithDish(SetmealDto setmealDto);
+    public void updateSetmealStatusById(CountDownLatch countDownLatch,int status,Long id,Long userId);
 }

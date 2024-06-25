@@ -2,6 +2,7 @@ package com.pingan.takeout.manage.center.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pingan.takeout.manage.center.common.BaseContext;
 import com.pingan.takeout.manage.center.common.R;
 import com.pingan.takeout.manage.center.dto.DishDto;
 import com.pingan.takeout.manage.center.dto.SetmealDto;
@@ -25,6 +26,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
@@ -124,44 +126,58 @@ public class SetmealController {
         return R.success(list);
     }
     //其实还可以整合成一个方法，url写为/status，读取后面的值设置为status，根据status对ids进行操作即可
-
-    /**
-     * 批量删除
-     * @param ids
-     * @return
-     */
-    @PostMapping("/status/0")
-    public R<String> closeStatus(@RequestParam List<Long> ids){
-        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
-        queryWrapper.in(Setmeal::getId,ids);
-
-        List<Setmeal> setmeals = setmealService.list(queryWrapper);
-
-        for(Setmeal setmeal : setmeals){
-            setmeal.setStatus(0);
-            setmealService.updateById(setmeal);
+    @PostMapping("/status/{status}")
+    public R<String> status(@PathVariable("status") int status,@RequestParam("ids") List<Long> ids){
+        CountDownLatch countDownLatch = new CountDownLatch(ids.size());
+        log.info("Controller当前操作的用户id："+ BaseContext.getCurrentId().toString());
+        Long userId = BaseContext.getCurrentId();
+        for(Long id:ids){
+            setmealService.updateSetmealStatusById(countDownLatch,status,id,userId);
         }
-        return R.success("修改成功");
-    }
-
-    /**
-     * 批量添加
-     * @param ids
-     * @return
-     */
-    @PostMapping("/status/1")
-    public R<String> openStatus(@RequestParam List<Long> ids){
-        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
-        queryWrapper.in(Setmeal::getId,ids);
-
-        List<Setmeal> setmeals = setmealService.list(queryWrapper);
-
-        for(Setmeal setmeal : setmeals){
-            setmeal.setStatus(1);
-            setmealService.updateById(setmeal);
+        try{
+            countDownLatch.await();
+        }catch (InterruptedException e){
+            throw new RuntimeException(e);
         }
-        return R.success("修改成功");
+        return R.success("售卖状态修改成功");
     }
+//    /**
+//     * 批量删除
+//     * @param ids
+//     * @return
+//     */
+//    @PostMapping("/status/0")
+//    public R<String> closeStatus(@RequestParam List<Long> ids){
+//        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
+//        queryWrapper.in(Setmeal::getId,ids);
+//
+//        List<Setmeal> setmeals = setmealService.list(queryWrapper);
+//
+//        for(Setmeal setmeal : setmeals){
+//            setmeal.setStatus(0);
+//            setmealService.updateById(setmeal);
+//        }
+//        return R.success("修改成功");
+//    }
+//
+//    /**
+//     * 批量添加
+//     * @param ids
+//     * @return
+//     */
+//    @PostMapping("/status/1")
+//    public R<String> openStatus(@RequestParam List<Long> ids){
+//        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
+//        queryWrapper.in(Setmeal::getId,ids);
+//
+//        List<Setmeal> setmeals = setmealService.list(queryWrapper);
+//
+//        for(Setmeal setmeal : setmeals){
+//            setmeal.setStatus(1);
+//            setmealService.updateById(setmeal);
+//        }
+//        return R.success("修改成功");
+//    }
 
     /**
      * 回显操作

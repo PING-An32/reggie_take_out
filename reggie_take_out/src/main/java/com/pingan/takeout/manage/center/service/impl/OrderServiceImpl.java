@@ -3,6 +3,7 @@ package com.pingan.takeout.manage.center.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pingan.takeout.manage.center.annotation.RepeatSubmit;
 import com.pingan.takeout.manage.center.common.BaseContext;
 import com.pingan.takeout.manage.center.common.CustomException;
 import com.pingan.takeout.manage.center.entity.*;
@@ -39,6 +40,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
      */
     @Override
     @Transactional
+    @RepeatSubmit(expireTime = 30)
     public void submit(Orders orders) {
         //获得当前用户id
         Long userId = BaseContext.getCurrentId();

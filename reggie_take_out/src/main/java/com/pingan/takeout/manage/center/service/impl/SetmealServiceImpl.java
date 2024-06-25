@@ -2,6 +2,7 @@ package com.pingan.takeout.manage.center.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pingan.takeout.manage.center.common.BaseContext;
 import com.pingan.takeout.manage.center.common.CustomException;
 import com.pingan.takeout.manage.center.dto.SetmealDto;
 import com.pingan.takeout.manage.center.entity.Setmeal;
@@ -11,10 +12,12 @@ import com.pingan.takeout.manage.center.service.SetmealDishService;
 import com.pingan.takeout.manage.center.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,5 +92,26 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         List<SetmealDish> setmealDishes = setmealDto.getSetmealDishes();
 
         setmealDishService.saveBatch(setmealDishes);
+    }
+
+    @Override
+    @Async("asyncServiceExecutor")
+    public void updateSetmealStatusById(CountDownLatch countDownLatch, int status, Long id, Long userId) {
+        try{
+            LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Setmeal::getId,id);
+            List<Setmeal> list = this.list(queryWrapper);
+            //这里是因为线程不同了，原来登录过滤器设置的用户id拿不到，得通过传参方式给进来
+            //然后用封装的BaseContext放到ThreadLocal里，才能给MyMetaObjectHandler来做公共字段自动填充
+            BaseContext.setCurrentId(userId);
+            for(Setmeal setmeal:list){
+                if(setmeal != null){
+                    setmeal.setStatus(status);
+                    this.updateById(setmeal);
+                }
+            }
+        }finally {
+            countDownLatch.countDown();
+        }
     }
 }
