@@ -7,7 +7,8 @@
     <list default="true" id="e0bce32c-d45a-43df-82d3-cf44caeecb15" name="Changes" comment="commit using IDEA">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/dto/OrdersDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/dto/OrdersDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/ShoppingCartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/ShoppingCartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/ShoppingCartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/ShoppingCartServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +183,7 @@
       <workItem from="1718801168228" duration="1935000" />
       <workItem from="1718855099530" duration="4820000" />
       <workItem from="1719210117777" duration="10134000" />
-      <workItem from="1719276410753" duration="13023000" />
+      <workItem from="1719276410753" duration="14082000" />
     </task>
     <task id="LOCAL-00001" summary="commit using IDEA">
       <option name="closed" value="true" />
