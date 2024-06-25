@@ -2,13 +2,15 @@ package com.pingan.takeout.manage.center.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pingan.takeout.manage.center.common.BaseContext;
 import com.pingan.takeout.manage.center.common.R;
 import com.pingan.takeout.manage.center.dto.OrdersDto;
+import com.pingan.takeout.manage.center.entity.OrderDetail;
 import com.pingan.takeout.manage.center.entity.Orders;
 import com.pingan.takeout.manage.center.entity.User;
 import com.pingan.takeout.manage.center.service.OrderService;
-//import com.pingan.takeout.manage.center.service.impl.OrderDetailServiceImpl;
-//import com.pingan.takeout.manage.center.service.impl.ShoppingCartServiceImpl;
+import com.pingan.takeout.manage.center.service.OrderDetailService;
+import com.pingan.takeout.manage.center.service.ShoppingCartService;
 import com.pingan.takeout.manage.center.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -30,10 +32,10 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private UserService userService;
-//    @Autowired
-//    private OrderDetailServiceImpl orderDetailService;
-//    @Autowired
-//    private ShoppingCartServiceImpl shoppingCartService;
+    @Autowired
+    private OrderDetailService orderDetailService;
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
     /**
      * 用户下单
@@ -101,8 +103,56 @@ public class OrderController {
         orderService.updateById(orders);
         return R.success("修改成功");
     }
-//    @GetMapping("/userPage")
-//    public R<Page> page(int page, int pageSize, String name){
-//        Page<>
-//    }
+
+    /**
+     * 查看手机版订单历史记录
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/userPage")
+    public R<Page> page(int page, int pageSize){
+        //新创返回类型Page
+        Page<Orders> pageInfo = new Page<>(page,pageSize);
+        Page<OrdersDto> ordersDtoPage = new Page<>();
+
+        //用户ID
+        Long currentId = BaseContext.getCurrentId();
+
+        //原条件写入
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Orders::getUserId,currentId);
+        queryWrapper.orderByDesc(Orders::getOrderTime);
+
+        orderService.page(pageInfo,queryWrapper);
+
+        //普通赋值
+        BeanUtils.copyProperties(pageInfo,ordersDtoPage,"records");
+
+        //订单赋值
+        List<Orders> records = pageInfo.getRecords();
+
+        List<OrdersDto> ordersDtoList = records.stream().map((item)->{
+            //新创内部元素
+            OrdersDto ordersDto = new OrdersDto();
+            //普通值赋值
+            BeanUtils.copyProperties(item,ordersDto);
+            //菜单详情赋值
+            Long itemId = item.getId();
+
+            LambdaQueryWrapper<OrderDetail> orderDetailLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            orderDetailLambdaQueryWrapper.eq(OrderDetail::getOrderId,itemId);
+
+            int count = orderDetailService.count(orderDetailLambdaQueryWrapper);
+
+            List<OrderDetail> orderDetailList = orderDetailService.list(orderDetailLambdaQueryWrapper);
+
+            ordersDto.setSumNum(count);//在ordersDto加上sumNum属性，lombok会自动生成setSumNum方法
+            ordersDto.setOrderDetails(orderDetailList);//同上
+            return ordersDto;
+        }).collect(Collectors.toList());
+        //完成dishDtoPage的results的内容封装
+        ordersDtoPage.setRecords(ordersDtoList);
+        return R.success(ordersDtoPage);
+    }
 }
