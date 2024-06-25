@@ -3,11 +3,14 @@ package com.pingan.takeout.manage.center.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pingan.takeout.manage.center.common.R;
+import com.pingan.takeout.manage.center.dto.DishDto;
 import com.pingan.takeout.manage.center.dto.SetmealDto;
 import com.pingan.takeout.manage.center.entity.Category;
+import com.pingan.takeout.manage.center.entity.Dish;
 import com.pingan.takeout.manage.center.entity.Setmeal;
 import com.pingan.takeout.manage.center.entity.SetmealDish;
 import com.pingan.takeout.manage.center.service.CategoryService;
+import com.pingan.takeout.manage.center.service.DishService;
 import com.pingan.takeout.manage.center.service.SetmealDishService;
 import com.pingan.takeout.manage.center.service.SetmealService;
 import io.swagger.annotations.Api;
@@ -38,6 +41,8 @@ public class SetmealController {
     private SetmealDishService setmealDishService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private DishService dishService;
 
     @PostMapping
     @CacheEvict(value="setmealCache",allEntries = true)
@@ -183,5 +188,32 @@ public class SetmealController {
     public R<String> update(@RequestBody SetmealDto setmealDto){
         setmealService.updateById(setmealDto);
         return R.success("修改成功");
+    }
+
+    /**
+     * 点击套餐图片查看套餐具体内容
+     * 前端主要要展示的信息是：套餐中菜品的基本信息，图片，菜品描述，以及菜品的份数
+     * @param SetmealId
+     * @return
+     */
+    @GetMapping("/dish/{id}")
+    public R<List<DishDto>> dish(@PathVariable("id") Long SetmealId){
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SetmealDish::getSetmealId,SetmealId);
+
+        //获取数据
+        List<SetmealDish> list = setmealDishService.list(queryWrapper);
+
+        List<DishDto> dishDtos = list.stream().map((setmealDish)->{
+            DishDto dishDto = new DishDto();
+            //基本信息拷贝
+            BeanUtils.copyProperties(setmealDish,dishDto);
+            //设置其他信息
+            Long dishId = setmealDish.getDishId();
+            Dish dish = dishService.getById(dishId);
+            BeanUtils.copyProperties(dish,dishDto);
+            return dishDto;
+        }).collect(Collectors.toList());
+        return R.success(dishDtos);
     }
 }

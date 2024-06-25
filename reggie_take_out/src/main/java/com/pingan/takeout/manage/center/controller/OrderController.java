@@ -44,6 +44,16 @@ public class OrderController {
         orderService.submit(orders);
         return R.success("下单成功");
     }
+
+    /**
+     * 后台回显
+     * @param page
+     * @param pageSize
+     * @param number
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
     @GetMapping("/page")
     public R<Page> pagePC(int page, int pageSize, Long number, Date beginTime, Date endTime) {
         //定制基本Page
@@ -79,6 +89,17 @@ public class OrderController {
         //完成dishDtoPage的results的内容封装
         ordersDtoPage.setRecords(ordersDtoList);
         return R.success(ordersDtoPage);
+    }
+
+    /**
+     * 修改订单状态（派送中，完成等）
+     * @param orders
+     * @return
+     */
+    @PutMapping
+    public R<String> beginSend(@RequestBody Orders orders) {
+        orderService.updateById(orders);
+        return R.success("修改成功");
     }
 //    @GetMapping("/userPage")
 //    public R<Page> page(int page, int pageSize, String name){
