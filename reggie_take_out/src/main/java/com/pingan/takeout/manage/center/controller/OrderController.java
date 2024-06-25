@@ -1,14 +1,12 @@
 package com.pingan.takeout.manage.center.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pingan.takeout.manage.center.common.R;
 import com.pingan.takeout.manage.center.entity.Orders;
 import com.pingan.takeout.manage.center.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 订单
@@ -28,4 +26,8 @@ public class OrderController {
         orderService.submit(orders);
         return R.success("下单成功");
     }
+//    @GetMapping("/userPage")
+//    public R<Page> page(int page, int pageSize, String name){
+//        Page<>
+//    }
 }

@@ -46,7 +46,7 @@ async defaultAddress(){
 @RequestMapping用来声明
 网页请求映射
 可用于类（通常）和方法
-@RequestBody用来绑定网页发送的JSON数据到一个java对象(map也可)
+@RequestBody用来绑定网页发送的JSON数据到一个java对象(map也可)（只用于POST请求，取出http请求体中的数据）
 ```java
 @PostMapping("/login")
 public R<User> login(@RequestBody Map map, HttpSession session)

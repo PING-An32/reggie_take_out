@@ -171,4 +171,31 @@ public class DishController {
 
         return R.success(dishDtoList);
     }
+
+    /**
+     * 启售，批量启售
+     * @param ids
+     * @return
+     */
+    @PostMapping("/status/1")
+    public R<String> openStatus(Long[] ids){
+        for(Long id:ids){
+            Dish dish = dishService.getById(id);
+            dish.setStatus(1);
+            dishService.updateById(dish);
+        }
+        return R.success("修改成功");
+    }
+    /**
+     * 停售，批量停售
+     */
+    @PostMapping("/status/0")
+    public R<String> closeStatus(Long[] ids){
+        for(Long id:ids){
+            Dish dish  = dishService.getById(id);
+            dish.setStatus(0);
+            dishService.updateById(dish);
+        }
+        return R.success("修改成功");
+    }
 }
