@@ -55,7 +55,10 @@ public R<User> login(@RequestBody Map map, HttpSession session)
 @Get/Post/DeleteMapping等是
     @RequestMapping(method=RequestMethod.GET/POST/DELETE)
 的shortcut
-@RequestParam
+@RequestParam(只用于POST请求，取出http请求头中的数据)
+
+请求 URL: http://localhost:8080/setmeal/status/0?ids=1415580119015145474,1583260610277715970 请求方法: POST
+
 ```java
 @GetMapping("/users")
 public String getUsers(@RequestParam("name") String userName) {
@@ -75,59 +78,25 @@ public String getUsers(@RequestParam(value = "name", required = false, defaultVa
 ### Sample1
 前端：
 请求：http://localhost:8080/order/userPage?page=1&pageSize=1
-后端：ordercontroller中声明@RequestMapping("/order")
+后端：ordercontroller中声明@RequestMapping("/order/userPage")
 
 ### Sample2(斜杠传参)backend菜品管理修改菜品时
-前端：
-```javascript
-statusHandle (row) {
-    let params = {}
-    if (typeof row === 'string' ) {
-        if (this.checkList.length === 0) {
-        this.$message.error('批量操作，请先勾选操作菜品！')
-        return false
-        }
-        params.id = this.checkList.join(',')
-        params.status = row
-    } else {
-        params.id = row.id
-        params.status = row.status ? '0' : '1'
-    }
-    this.dishState = params
-    this.$confirm('确认更改该菜品状态?', '提示', {
-        'confirmButtonText': '确定',
-        'cancelButtonText': '取消',
-        'type': 'warning'
-    }).then(() => {
-        // 起售停售---批量起售停售接口
-        dishStatusByStatus(this.dishState).then(res => {
-        if (res.code === 1) {
-            this.$message.success('菜品状态已经更改成功！')
-            this.handleQuery()
-        } else {
-            this.$message.error(res.msg || '操作失败')
-        }
-        }).catch(err => {
-            this.$message.error('请求出错了：' + err)
-        })
-    })
-},
-```
-
-请求：http://localhost:8080/dish/1413384757047271425
+请求GET：http://localhost:8080/dish/1413384757047271425
 后端：
 其中dishcontroller已声明("/dish")
-需要声明PathVariable用于接收直接传参
+需要声明PathVariable用于接收直接传参 表明在请求头里
+
 ```java
 @GetMapping("/{id}")
     public R<DishDto> get(@PathVariable Long id)
 ```
 
 ### Sample3(多个参数)
-前端：
-请求：
+
+请求POST/DELETE/UPDATE：http://localhost:8080/setmeal/status/0?ids=1415580119015145474,1583260610277715970
 后端：
-声明RequestParam
+声明RequestParam表明在请求头里
+
 ```java
 @DeleteMapping
     public R<String> delete(@RequestParam List<Long> ids)
@@ -135,91 +104,14 @@ statusHandle (row) {
 
 ### Sample4(JSON传参)新增套餐时(通常使用实体类接收)
 
-前端：
-```javascript
-<el-button type="primary" @click="submitForm('ruleForm', false)"> 保存 </el-button>
 
-    submitForm(formName, st) {
-    this.$refs[formName].validate((valid) => {
-        if (valid) {
-        let prams = { ...this.ruleForm }
-        prams.price *= 100
-        prams.setmealDishes = this.dishTable.map((obj) => ({
-            copies: obj.copies,
-            dishId: obj.dishId,
-            name: obj.name,
-            price: obj.price,
-        }))
-        prams.status = this.ruleForm ? 1 : 0
-        prams.categoryId = this.ruleForm.idType
-        if(prams.setmealDishes.length < 1){
-            this.$message.error('请选择菜品！')
-            return 
-        }
-        if(!this.imageUrl){
-            this.$message.error('请上传套餐图片')
-            return 
-        }
-        // delete prams.dishList
-        if (this.actionType == 'add') {
-            delete prams.id
-            addSetmeal(prams)
-            .then((res) => {
-                if (res.code === 1) {
-                this.$message.success('套餐添加成功！')
-                if (!st) {
-                    this.goBack()
-                } else {
-                    this.$refs.ruleForm.resetFields()
-                    this.dishList = []
-                    this.dishTable = []
-                    this.ruleForm = {
-                    name: '',
-                    categoryId: '',
-                    price: '',
-                    code: '',
-                    image: '',
-                    description: '',
-                    dishList: [],
-                    status: true,
-                    id: '',
-                    idType: '',
-                    }
-                    this.imageUrl = ''
-                }
-                } else {
-                this.$message.error(res.msg || '操作失败')
-                }
-            })
-            .catch((err) => {
-                this.$message.error('请求出错了：' + err)
-            })
-        } else {
-            delete prams.updateTime
-            editSetmeal(prams)
-            .then((res) => {
-                if (res.code === 1) {
-                this.$message.success('套餐修改成功！')
-                this.goBack()
-                } else {
-                this.$message.error(res.msg || '操作失败')
-                }
-            })
-            .catch((err) => {
-                this.$message.error('请求出错了：' + err)
-            })
-        }
-        } else {
-        return false
-        }
-    })
-},
-```
-请求：http://localhost:8080/setmeal（含载荷JSON）
+
+请求POST：http://localhost:8080/setmeal（含载荷JSON）
 ![alt text](image.png)
 后端：
 其中setmealcontroller已声明("/setmeal")
-需要声明RequestBody用于接收JSON数据
+需要声明RequestBody用于接收（请求体）JSON数据
+
 ```java
 @PostMapping
     public R<String> save(@RequestBody SetmealDto setmealDto)
@@ -228,9 +120,10 @@ statusHandle (row) {
 ### Sample5(直接取值赋值)backend点击菜品管理时
 前端：
 请求：http://localhost:8080/dish/page?page=1&pageSize=10
-（载荷中也可以看到page：1   pageSize：10）
+（载荷中也可以看到page：1   pageSize：10）（载荷payload中确实能看到，难道是浏览器的优化？理论上page和pageSize在请求头中）（GPT说这是query string，不属于requestbody或requestheader）
 java程序断点处发现page pageSize都成功赋上了值，name为null
 后端：
+
 ```java
 @GetMapping("/page")
     public R<Page> page(int page, int pageSize, String name)

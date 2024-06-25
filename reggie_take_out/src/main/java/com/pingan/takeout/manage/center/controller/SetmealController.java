@@ -117,4 +117,30 @@ public class SetmealController {
         List<Setmeal> list = setmealService.list(queryWrapper);
         return R.success(list);
     }
+    @PostMapping("/status/0")
+    public R<String> closeStatus(@RequestParam List<Long> ids){
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.in(Setmeal::getId,ids);
+
+        List<Setmeal> setmeals = setmealService.list(queryWrapper);
+
+        for(Setmeal setmeal : setmeals){
+            setmeal.setStatus(0);
+            setmealService.updateById(setmeal);
+        }
+        return R.success("修改成功");
+    }
+    @PostMapping("/status/1")
+    public R<String> openStatus(@RequestParam List<Long> ids){
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.in(Setmeal::getId,ids);
+
+        List<Setmeal> setmeals = setmealService.list(queryWrapper);
+
+        for(Setmeal setmeal : setmeals){
+            setmeal.setStatus(1);
+            setmealService.updateById(setmeal);
+        }
+        return R.success("修改成功");
+    }
 }
