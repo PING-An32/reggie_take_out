@@ -5,24 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e0bce32c-d45a-43df-82d3-cf44caeecb15" name="Changes" comment="commit using IDEA">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/config/ExecutorConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_43_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_43_[Changes]2/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_43__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_43__Changes_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_47_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_47_[Changes]2/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_47__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_11_21_47__Changes_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_16_22_16_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024_6_16_22_16__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/ReggieApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/ReggieApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/DishController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/DishController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +181,7 @@
       <workItem from="1718801168228" duration="1935000" />
       <workItem from="1718855099530" duration="4820000" />
       <workItem from="1719210117777" duration="10134000" />
-      <workItem from="1719276410753" duration="3581000" />
+      <workItem from="1719276410753" duration="4057000" />
     </task>
     <task id="LOCAL-00001" summary="commit using IDEA">
       <option name="closed" value="true" />

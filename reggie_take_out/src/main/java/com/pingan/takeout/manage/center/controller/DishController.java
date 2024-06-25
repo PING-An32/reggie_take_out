@@ -186,8 +186,11 @@ public class DishController {
         }
         return R.success("修改成功");
     }
+
     /**
      * 停售，批量停售
+     * @param ids
+     * @return
      */
     @PostMapping("/status/0")
     public R<String> closeStatus(Long[] ids){
@@ -197,5 +200,18 @@ public class DishController {
             dishService.updateById(dish);
         }
         return R.success("修改成功");
+    }
+
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    public R<String> deleteByIds(Long[] ids){
+        for(Long id:ids){
+            dishService.removeById(id);
+        }
+        return R.success("删除成功");
     }
 }
