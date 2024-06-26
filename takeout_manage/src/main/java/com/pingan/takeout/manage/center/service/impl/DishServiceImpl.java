@@ -129,12 +129,19 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
                 }
                 return item;
             }).collect(Collectors.toList());
-            dishService.updateBatchById(dishes);
+            boolean b = dishService.updateBatchById(dishes);
+            System.out.println(b);
         }else{
             throw new NotEnoughStockException("当前有其他用户正在对您购物车中的菜品进行下单");
         }
-        for(Long dishId : dishAmount.keySet()) {//释放锁
-            redisLock.unlock(dishId.toString());
+
+        try {
+            for(Long dishId : dishAmount.keySet()) {//释放锁
+                redisLock.unlock(dishId.toString());
+            }
+        } catch (Exception e) {
+            log.error("redis lock release failed");
+            throw new RuntimeException(e);
         }
     }
 }
