@@ -131,6 +131,7 @@ public class SetmealController {
         CountDownLatch countDownLatch = new CountDownLatch(ids.size());
         log.info("Controller当前操作的用户id："+ BaseContext.getCurrentId().toString());
         Long userId = BaseContext.getCurrentId();
+        //或者直接合并成一条sql语句，使用线程池是为了练习
         for(Long id:ids){
             setmealService.updateSetmealStatusById(countDownLatch,status,id,userId);
         }
