@@ -51,6 +51,9 @@ public class Dish implements Serializable {
     //顺序
     private Integer sort;
 
+    //扩展添加，菜品余量，默认为2
+    private Integer remainingAmount;
+
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

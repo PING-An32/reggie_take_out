@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e0bce32c-d45a-43df-82d3-cf44caeecb15" name="Changes" comment="commit using IDEA">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/NotEnoughStockException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/SetmealController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/SetmealController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/RedisLock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/RedisLock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/ShoppingCartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/ShoppingCartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/entity/Dish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/entity/Dish.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/DishService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/DishService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/DishServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/DishServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/ShoppingCartServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/ShoppingCartServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +191,7 @@
       <workItem from="1718855099530" duration="4820000" />
       <workItem from="1719210117777" duration="10134000" />
       <workItem from="1719276410753" duration="14934000" />
-      <workItem from="1719364236018" duration="1540000" />
+      <workItem from="1719364236018" duration="15914000" />
     </task>
     <task id="LOCAL-00001" summary="commit using IDEA">
       <option name="closed" value="true" />
@@ -220,34 +227,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="commit using IDEA" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/common/RedisLock.java</url>
-          <line>14</line>
-          <option name="timeStamp" value="88" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/SetmealServiceImpl.java</url>
-          <line>100</line>
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/controller/SetmealController.java</url>
-          <line>130</line>
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/pingan/takeout/manage/center/service/impl/OrderServiceImpl.java</url>
-          <line>43</line>
-          <properties class="com.pingan.takeout.manage.center.service.impl.OrderServiceImpl" method="submit">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="94" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="com.sun.proxy.$Proxy75" memberName="h" />

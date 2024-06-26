@@ -34,4 +34,11 @@ public class GlobalExceptionHandler {
 
         return R.error(ex.getMessage());
     }
+
+    @ExceptionHandler(NotEnoughStockException.class)
+    public R<String> exceptionHandler(NotEnoughStockException ex) {
+        log.error(ex.getMessage());
+
+        return R.error(ex.getMessage());
+    }
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pingan.takeout.manage.center.annotation.RepeatSubmit;
 import com.pingan.takeout.manage.center.common.BaseContext;
 import com.pingan.takeout.manage.center.common.CustomException;
+import com.pingan.takeout.manage.center.common.NotEnoughStockException;
 import com.pingan.takeout.manage.center.entity.*;
 import com.pingan.takeout.manage.center.mapper.OrderMapper;
 import com.pingan.takeout.manage.center.service.*;
@@ -16,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -31,7 +34,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
     private AddressBookService addressBookService;
     @Autowired
     private OrderDetailService orderDetailService;
-
+    @Autowired
+    private DishService dishService;
     //需要用到 所以注入
 
     /**
@@ -39,7 +43,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
      * @param orders
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @RepeatSubmit(expireTime = 30)
     public void submit(Orders orders) {
         //获得当前用户id
@@ -52,6 +56,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
         if(shoppingCarts == null || shoppingCarts.size() == 0) {
             throw new CustomException("购物车为空，不能下单");
         }
+
         //查询用户数据
         User user = userService.getById(userId);
         //查询地址数据
@@ -63,7 +68,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
 
         long orderId = IdWorker.getId();//订单号，mybatisplus随机生成
 
-        AtomicInteger amount = new AtomicInteger(0);
+        AtomicInteger amount = new AtomicInteger(0);//订单金额
+
+        dishService.updateStock(shoppingCarts);
 
         List<OrderDetail> orderDetails = shoppingCarts.stream().map((item) -> {
             OrderDetail orderDetail = new OrderDetail();
@@ -78,7 +85,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
             amount.addAndGet(item.getAmount().multiply(new BigDecimal(item.getNumber())).intValue());
             return orderDetail;
         }).collect(Collectors.toList());
-
 
         //向订单表插入数据，一条数据
         orders.setId(orderId);
@@ -97,8 +103,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
                 + (addressBook.getDetail() == null ? "" : addressBook.getDetail()));
 
         this.save(orders);
+
         //向订单明细表插入数据，多条数据
         orderDetailService.saveBatch(orderDetails);
+
         //清空购物车数据
         shoppingCartService.remove(wrapper);
     }

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 分布式锁用于防止重复提交订单
+ */
 @Component
 public class RedisLock {
     @Autowired

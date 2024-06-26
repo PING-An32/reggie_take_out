@@ -7,6 +7,7 @@ import com.pingan.takeout.manage.center.entity.ShoppingCart;
 import com.pingan.takeout.manage.center.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;

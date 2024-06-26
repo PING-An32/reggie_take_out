@@ -8,10 +8,12 @@ import com.pingan.takeout.manage.center.entity.ShoppingCart;
 import com.pingan.takeout.manage.center.mapper.ShoppingCartMapper;
 import com.pingan.takeout.manage.center.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ShoppingCartServiceImpl extends ServiceImpl<ShoppingCartMapper, ShoppingCart>implements ShoppingCartService {
     @Override
+    @Transactional
     public R<String> clean() {
         //进行用户比对
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
