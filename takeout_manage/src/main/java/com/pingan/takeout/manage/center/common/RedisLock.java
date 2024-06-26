@@ -19,22 +19,22 @@ public class RedisLock {
     private StringRedisTemplate redisTemplate;
     private static final String ID_PREFIX = UUID.randomUUID().toString()+"-";
     private static final DefaultRedisScript<Long> UNLOCK_SCRIPT;//用于读取lua脚本
-    private String lockKey;
     static {
         UNLOCK_SCRIPT = new DefaultRedisScript<>();
         UNLOCK_SCRIPT.setLocation(new ClassPathResource("unlock.lua"));//去类路径下寻找lua脚本
         UNLOCK_SCRIPT.setResultType(Long.class);
     }
 
+    //例key:1805956267822964738                           (userId)
+    //value:2a96edb8-a4ce-4a7c-b12a-32d8e8deaeb2-46     (UUID+threadId)
     public boolean tryLock(String lockKey,long seconds){
-        this.lockKey = lockKey;
         String threadId = ID_PREFIX + Thread.currentThread().getId();//生成一个与某线程相关的在Redis中的唯一Value，不同的JVM可能线程值相同，所以还要加UUID
         Boolean success = redisTemplate.opsForValue()
                 .setIfAbsent(lockKey,threadId,seconds, TimeUnit.SECONDS);
 
         return Boolean.TRUE.equals(success);
     }
-    public void unlock(){
+    public void unlock(String lockKey){
         //调用lua脚本（变成一行代码了，原子性）
         redisTemplate.execute(
                 UNLOCK_SCRIPT,
