@@ -70,7 +70,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
 
         AtomicInteger amount = new AtomicInteger(0);//订单金额
 
-        dishService.updateStock(shoppingCarts);
+//        dishService.updateStock(shoppingCarts);
 
         List<OrderDetail> orderDetails = shoppingCarts.stream().map((item) -> {
             OrderDetail orderDetail = new OrderDetail();

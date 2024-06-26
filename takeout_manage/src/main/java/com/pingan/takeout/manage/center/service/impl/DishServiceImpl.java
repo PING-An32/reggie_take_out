@@ -110,7 +110,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
             boolean isSuccess = true;
             for(ShoppingCart shoppingCart : shoppingCarts) {
                 dishAmount.put(shoppingCart.getDishId(),shoppingCart.getNumber());//扩展功能
-                isSuccess = isSuccess && redisLock.tryLock(shoppingCart.getDishId().toString(),"whatever",30);
+                isSuccess = isSuccess && redisLock.tryLock(shoppingCart.getDishId().toString(),30);
             }//当所有菜品都成功拿到分布式锁，才去修改数据库
 
             if(isSuccess) {
@@ -138,7 +138,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
             throw e;
         } finally {
             for(Long dishId : dishAmount.keySet()) {
-                redisLock.releaseLock(dishId.toString());
+                redisLock.unlock();
             }
         }
     }
