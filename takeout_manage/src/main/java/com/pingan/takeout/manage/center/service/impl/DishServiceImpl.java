@@ -3,6 +3,7 @@ package com.pingan.takeout.manage.center.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pingan.takeout.manage.center.common.NotEnoughStockException;
+import com.pingan.takeout.manage.center.common.RedisLock;
 import com.pingan.takeout.manage.center.dto.DishDto;
 import com.pingan.takeout.manage.center.entity.Dish;
 import com.pingan.takeout.manage.center.entity.DishFlavor;
@@ -29,6 +30,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     private DishFlavorService dishFlavorService;
     @Autowired
     private DishService dishService;
+    @Autowired
+    private RedisLock redisLock;
     /**
      * 新增菜品，同时保存对应的口味数据
      * @param dishDto
@@ -103,28 +106,40 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     public void updateStock(List<ShoppingCart> shoppingCarts) {
         Map<Long,Integer> dishAmount = new HashMap<>();//扩展功能
 
-        for(ShoppingCart shoppingCart : shoppingCarts) {
-            dishAmount.put(shoppingCart.getDishId(),shoppingCart.getNumber());//扩展功能
-        }
+        try {
+            boolean isSuccess = true;
+            for(ShoppingCart shoppingCart : shoppingCarts) {
+                dishAmount.put(shoppingCart.getDishId(),shoppingCart.getNumber());//扩展功能
+                isSuccess = isSuccess && redisLock.tryLock(shoppingCart.getDishId().toString(),"whatever",30);
+            }//当所有菜品都成功拿到分布式锁，才去修改数据库
 
-        //扩展功能：菜品超售检测
-        //查询购物车涉及到的dish的余量，通过map的key来查询
-        LambdaQueryWrapper<Dish> wrapperDish = new LambdaQueryWrapper<>();
-        wrapperDish.in(Dish::getId,
-                dishAmount.keySet().stream().collect(Collectors.toList())//map的keyset包含了所有菜品id
-        ).last("FOR UPDATE");//添加行锁
-        List<Dish> dishList =  dishService.list(wrapperDish);
-        //对dish中的remainingAmount做 修改 并 保存
-        List<Dish> dishes = dishList.stream().map((item)->{
-            Integer remains = item.getRemainingAmount();
-            Integer sub = dishAmount.get(item.getId());
-            if(remains-sub<0){//下单不成功，点单数大于库存数
-                throw new NotEnoughStockException("库存不足，下单失败");
+            if(isSuccess) {
+                //扩展功能：菜品超售检测
+                //查询购物车涉及到的dish的余量，通过map的key来查询
+                LambdaQueryWrapper<Dish> wrapperDish = new LambdaQueryWrapper<>();
+                wrapperDish.in(Dish::getId,dishAmount.keySet().stream().collect(Collectors.toList()));
+                List<Dish> dishList =  dishService.list(wrapperDish);
+                //对dish中的remainingAmount做 修改 并 保存
+                List<Dish> dishes = dishList.stream().map((item)->{
+                    Integer remains = item.getRemainingAmount();
+                    Integer sub = dishAmount.get(item.getId());
+                    if(remains-sub<0){//下单不成功，点单数大于库存数
+                        throw new NotEnoughStockException("库存不足，下单失败");
+                    }else{
+                        item.setRemainingAmount(remains-sub);
+                    }
+                    return item;
+                }).collect(Collectors.toList());
+                dishService.updateBatchById(dishes);
             }else{
-                item.setRemainingAmount(remains-sub);
+                throw new NotEnoughStockException("当前有其他用户正在对您购物车中的菜品进行下单");
             }
-            return item;
-        }).collect(Collectors.toList());
-        dishService.updateBatchById(dishes);
+        } catch (NotEnoughStockException e) {
+            throw e;
+        } finally {
+            for(Long dishId : dishAmount.keySet()) {
+                redisLock.releaseLock(dishId.toString());
+            }
+        }
     }
 }
